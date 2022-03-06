@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
    */
   BeakXBoxController _con = new BeakXBoxController(0);
   ClimberSolenoid _s = ClimberSolenoid.getInstance();
-  ClimberMotor _m = ClimberMotor.getInstance();
+  ClimberMotor _climber = ClimberMotor.getInstance();
   RobotContainer _rc;
 
   @Override
@@ -59,4 +59,12 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+
+  @Override
+  public void disabledInit() 
+  {
+      _climber.leftMotorOff();
+      _climber.rightMotorOff();
+  }
 }

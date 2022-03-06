@@ -12,7 +12,7 @@ import frc.robot.subsystems.ClimberSolenoid;
 public class RobotContainer {
     BeakXBoxController _con = new BeakXBoxController(0);
     ClimberSolenoid _s = ClimberSolenoid.getInstance();
-    ClimberMotor _m = ClimberMotor.getInstance();
+    ClimberMotor _climberMotor = ClimberMotor.getInstance();
   
     public RobotContainer() {
         configureButtonBindings();
@@ -20,15 +20,21 @@ public class RobotContainer {
 
     public void configureButtonBindings() {
         _con.a.whenPressed(new InstantCommand(() -> _s.toggleTippySolenoid()));
-        _con.left_bumper.whenPressed(new InstantCommand(() -> _m.leftMotorForward()));
-        _con.start.whenPressed(new InstantCommand(() -> _m.leftMotorBackward()));
+        _con.left_bumper.whileHeld(new InstantCommand(() -> _climberMotor.leftMotorForward()));
+        _con.left_bumper.whenReleased(new InstantCommand(() -> _climberMotor.leftMotorOff()));
+        _con.start.whileHeld(new InstantCommand(() -> _climberMotor.leftMotorBackward()));
+        _con.start.whenReleased(new InstantCommand(() -> _climberMotor.leftMotorOff()));
 
-        _con.y.whenPressed(new InstantCommand(() -> _m.leftMotorForward()).alongWith(new InstantCommand(() -> _m.rightMotorForward())));
-        _con.x.whenPressed(new InstantCommand(() -> _m.leftMotorBackward()).alongWith(new InstantCommand(() -> _m.rightMotorBackward())));
-        
+        _con.y.whileHeld(new InstantCommand(() -> _climberMotor.leftMotorForward()).alongWith(new InstantCommand(() -> _climberMotor.rightMotorForward())));
+        _con.y.whenReleased(new InstantCommand(() -> _climberMotor.leftMotorOff()).alongWith(new InstantCommand(() -> _climberMotor.rightMotorOff())));
+        _con.x.whileHeld(new InstantCommand(() -> _climberMotor.leftMotorBackward()).alongWith(new InstantCommand(() -> _climberMotor.rightMotorBackward())));
+        _con.x.whenReleased(new InstantCommand(() -> _climberMotor.leftMotorOff()).alongWith(new InstantCommand(() -> _climberMotor.rightMotorOff())));
+       
         _con.b.whenPressed(new InstantCommand(() -> _s.toggleGrippySolenoid()));
-        _con.right_bumper.whenPressed(new InstantCommand(() -> _m.rightMotorForward()));
-        _con.back.whenPressed(new InstantCommand(() -> _m.rightMotorBackward()));
-        _con.right_stick_button.whenPressed(new InstantCommand(() -> _m.rightMotorOff()).alongWith(new InstantCommand(() -> _m.leftMotorOff())));
+        _con.right_bumper.whileHeld(new InstantCommand(() -> _climberMotor.rightMotorForward()));
+        _con.right_bumper.whenReleased(new InstantCommand(() -> _climberMotor.rightMotorOff()));
+        _con.back.whileHeld(new InstantCommand(() -> _climberMotor.rightMotorBackward()));
+        _con.back.whenReleased(new InstantCommand(() -> _climberMotor.rightMotorOff()));
+        _con.right_stick_button.whenPressed(new InstantCommand(() -> _climberMotor.rightMotorOff()).alongWith(new InstantCommand(() -> _climberMotor.leftMotorOff())));
     }
 }
