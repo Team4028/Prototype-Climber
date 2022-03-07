@@ -4,7 +4,10 @@
 
 package frc.robot.subsystems;
 
+import java.security.DrbgParameters.Reseed;
+
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -14,6 +17,9 @@ public class ClimberMotor extends SubsystemBase {
   CANSparkMax _leftClimberMotor;
   CANSparkMax _rightClimberMotor;
   double counter = 0;
+  private double encoderOffset = 0;
+  RelativeEncoder _GrippyEncoderLeft;
+   RelativeEncoder _GrippyEncoderRight;
   private static ClimberMotor _climber = new ClimberMotor();
   /** Creates a new ClimberMotor. */
   public ClimberMotor() {
@@ -25,6 +31,9 @@ public class ClimberMotor extends SubsystemBase {
     _rightClimberMotor.setSmartCurrentLimit(40);
     _leftClimberMotor.setIdleMode(IdleMode.kBrake);
     _rightClimberMotor.setIdleMode(IdleMode.kBrake);
+    _GrippyEncoderLeft = _leftClimberMotor.getEncoder();
+    _GrippyEncoderRight = _rightClimberMotor.getEncoder();
+    
   }
 
   public void leftMotorForward() {
@@ -35,10 +44,50 @@ public class ClimberMotor extends SubsystemBase {
   public void leftMotorBackward() {
     _leftClimberMotor.set(-0.5);
   }
-
+  public double getEncoderPosition()
+  {
+    return (_GrippyEncoderLeft.getPosition() - encoderOffset);
+  }
+  
+  public void resetEncoder(){
+    encoderOffset = _GrippyEncoderLeft.getPosition();
+  }
+  public void leftMotorEncoderUp() {
+    if (_GrippyEncoderLeft.getPosition() < 100) {
+      _leftClimberMotor.set(.5);
+    } else {
+      _leftClimberMotor.set(0);
+      resetEncoder();
+    }
+  }
+  public void leftMotorEncoderDown() {
+    if (_GrippyEncoderLeft.getPosition() < 100) {
+      _leftClimberMotor.set(-.5);
+    } else {
+      _leftClimberMotor.set(0);
+      resetEncoder();
+    }
+  }
+  public void rightMotorEncoderUp() {
+    if (_GrippyEncoderRight.getPosition() < 100) {
+      _rightClimberMotor.set(.5);
+    } else {
+      _rightClimberMotor.set(0);
+      resetEncoder();
+    }
+  }
+  public void rightMotorEncoderDown() {
+    if (_GrippyEncoderRight.getPosition() < 100) {
+      _rightClimberMotor.set(-.5);
+    } else {
+      _rightClimberMotor.set(0);
+      resetEncoder();
+    }
+  }
   public void leftMotorOff() {
     _leftClimberMotor.set(0.);
   }
+  
 
   public void rightMotorForward() {
     _rightClimberMotor.set(-0.5);

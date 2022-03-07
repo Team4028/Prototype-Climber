@@ -18,8 +18,8 @@ public class ClimberSolenoid extends SubsystemBase {
   private static ClimberSolenoid _i = new ClimberSolenoid();
   /** Creates a new Sneed. */
   public ClimberSolenoid() {
-    _stippy = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
-    _sgrippy = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+    _stippy = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+    _sgrippy = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
   }
 
   public void toggleTippySolenoid() {
