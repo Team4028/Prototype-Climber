@@ -53,7 +53,7 @@ public class ClimberMotor extends SubsystemBase {
     encoderOffset = _GrippyEncoderLeft.getPosition();
   }
   public void leftMotorEncoderUp() {
-    if (_GrippyEncoderLeft.getPosition() < 100) {
+    if (_GrippyEncoderLeft.getPosition() < 15) {
       _leftClimberMotor.set(.5);
     } else {
       _leftClimberMotor.set(0);
@@ -61,7 +61,7 @@ public class ClimberMotor extends SubsystemBase {
     }
   }
   public void leftMotorEncoderDown() {
-    if (_GrippyEncoderLeft.getPosition() < 100) {
+    if (_GrippyEncoderLeft.getPosition() < 15) {
       _leftClimberMotor.set(-.5);
     } else {
       _leftClimberMotor.set(0);
@@ -69,7 +69,7 @@ public class ClimberMotor extends SubsystemBase {
     }
   }
   public void rightMotorEncoderUp() {
-    if (_GrippyEncoderRight.getPosition() < 100) {
+    if (_GrippyEncoderRight.getPosition() < 15){
       _rightClimberMotor.set(.5);
     } else {
       _rightClimberMotor.set(0);
@@ -77,7 +77,7 @@ public class ClimberMotor extends SubsystemBase {
     }
   }
   public void rightMotorEncoderDown() {
-    if (_GrippyEncoderRight.getPosition() < 100) {
+    if (_GrippyEncoderRight.getPosition() < 15) {
       _rightClimberMotor.set(-.5);
     } else {
       _rightClimberMotor.set(0);
