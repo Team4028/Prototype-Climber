@@ -58,7 +58,7 @@ public class ClimberMotor extends SubsystemBase {
   }
 
   public void leftMotorEncoderUp() {
-    if (getLeftEncoderPosition() < 15) {
+    if (getLeftEncoderPosition() < 50) {
       leftMotorForward();
     } else {
       leftMotorOff();
@@ -66,8 +66,9 @@ public class ClimberMotor extends SubsystemBase {
   }
 
   public void leftMotorEncoderDown() {
-    if (getLeftEncoderPosition() > -15) {
+    if (getLeftEncoderPosition() > -50) {
       leftMotorBackward();
+      
       System.out.println(getLeftEncoderPosition());
     } else {
       leftMotorOff();
@@ -75,7 +76,7 @@ public class ClimberMotor extends SubsystemBase {
   }
 
   public void rightMotorEncoderUp() {
-    if (getRightEncoderPosition() < 15) {
+    if (getRightEncoderPosition() < 50) {
       rightMotorForward();
     } else {
       rightMotorOff();
@@ -83,27 +84,32 @@ public class ClimberMotor extends SubsystemBase {
   }
 
   public void rightMotorEncoderDown() {
-    if (getRightEncoderPosition() > -15) {
+    if (getRightEncoderPosition() > -50) {
       rightMotorBackward();
     } else {
       rightMotorOff();
     }
   }
 
+  // SmartDashboard.putNumber("Left: ", _leftEncoder.getPosition());
   public void leftMotorForward() {
     _left.set(0.6);
+    System.out.println(_leftEncoder.getPosition());
   }
 
   public void leftMotorBackward() {
     _left.set(-0.6);
+    System.out.println(_leftEncoder.getPosition());
   }
 
   public void rightMotorForward() {
     _right.set(0.6);
+    System.out.println(_rightEncoder.getPosition());
   }
 
   public void rightMotorBackward() {
     _right.set(-0.6);
+    System.out.println(_rightEncoder.getPosition());
   }
 
   public void leftMotorOff() {
