@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.security.DrbgParameters.Reseed;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -14,92 +12,126 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberMotor extends SubsystemBase {
-  CANSparkMax _leftClimberMotor;
-  CANSparkMax _rightClimberMotor;
+  CANSparkMax _left;
+  CANSparkMax _right;
   double counter = 0;
-  private double encoderOffset = 0;
-  RelativeEncoder _GrippyEncoderLeft;
-   RelativeEncoder _GrippyEncoderRight;
+  private double rightEncoderOffset = 0, leftEncoderOffset = 0;
+  RelativeEncoder _leftEncoder, _rightEncoder;
   private static ClimberMotor _climber = new ClimberMotor();
+  private boolean leftEncoderFinished = false, rightEncoderFinished = false;
+
   /** Creates a new ClimberMotor. */
   public ClimberMotor() {
-    _leftClimberMotor = new CANSparkMax(1, MotorType.kBrushless);
-    _rightClimberMotor = new CANSparkMax(4, MotorType.kBrushless);
-    _leftClimberMotor.restoreFactoryDefaults();
-    _rightClimberMotor.restoreFactoryDefaults();
-    _leftClimberMotor.setSmartCurrentLimit(40);
-    _rightClimberMotor.setSmartCurrentLimit(40);
-    _leftClimberMotor.setIdleMode(IdleMode.kBrake);
-    _rightClimberMotor.setIdleMode(IdleMode.kBrake);
-    _GrippyEncoderLeft = _leftClimberMotor.getEncoder();
-    _GrippyEncoderRight = _rightClimberMotor.getEncoder();
-    
+    //1 = production motor
+    _left = new CANSparkMax(1, MotorType.kBrushless);
+    _right = new CANSparkMax(4, MotorType.kBrushless);
+    _left.restoreFactoryDefaults();
+    _right.restoreFactoryDefaults();
+    _left.setSmartCurrentLimit(40);
+    _right.setSmartCurrentLimit(40);
+    _left.setIdleMode(IdleMode.kBrake);
+    _right.setIdleMode(IdleMode.kBrake);
+    _leftEncoder = _left.getEncoder();
+    _rightEncoder = _right.getEncoder();
+
+    _leftEncoder.setPosition(0.);
+    resetLeftEncoder();
+
+    _rightEncoder.setPosition(0.);
+    resetRightEncoder();
+  }
+
+  public double getLeftEncoderPosition() {
+    return (_leftEncoder.getPosition() - leftEncoderOffset);
+  }
+
+  public double getRightEncoderPosition() {
+    return (_rightEncoder.getPosition() - rightEncoderOffset);
+  }
+
+  public void resetLeftEncoder() {
+    leftEncoderOffset = _leftEncoder.getPosition();
+  }
+
+  public void resetRightEncoder() {
+    rightEncoderOffset = _rightEncoder.getPosition();
+  }
+
+  public void leftMotorEncoderUp() {
+    if (getLeftEncoderPosition() < 15) {
+      leftMotorForward();
+    } else {
+      leftMotorOff();
+    }
+  }
+
+  public void leftMotorEncoderDown() {
+    if (getLeftEncoderPosition() > -15) {
+      leftMotorBackward();
+      System.out.println(getLeftEncoderPosition());
+    } else {
+      leftMotorOff();
+    }
+  }
+
+  public void rightMotorEncoderUp() {
+    if (getRightEncoderPosition() < 15) {
+      rightMotorForward();
+    } else {
+      rightMotorOff();
+    }
+  }
+
+  public void rightMotorEncoderDown() {
+    if (getRightEncoderPosition() > -15) {
+      rightMotorBackward();
+    } else {
+      rightMotorOff();
+    }
   }
 
   public void leftMotorForward() {
-    _leftClimberMotor.set(0.5);
-    System.out.println("leftmotorforward");
+    _left.set(0.6);
   }
 
   public void leftMotorBackward() {
-    _leftClimberMotor.set(-0.5);
+    _left.set(-0.6);
   }
-  public double getEncoderPosition()
-  {
-    return (_GrippyEncoderLeft.getPosition() - encoderOffset);
-  }
-  
-  public void resetEncoder(){
-    encoderOffset = _GrippyEncoderLeft.getPosition();
-  }
-  public void leftMotorEncoderUp() {
-    if (_GrippyEncoderLeft.getPosition() < 15) {
-      _leftClimberMotor.set(.5);
-    } else {
-      _leftClimberMotor.set(0);
-      resetEncoder();
-    }
-  }
-  public void leftMotorEncoderDown() {
-    if (_GrippyEncoderLeft.getPosition() < 15) {
-      _leftClimberMotor.set(-.5);
-    } else {
-      _leftClimberMotor.set(0);
-      resetEncoder();
-    }
-  }
-  public void rightMotorEncoderUp() {
-    if (_GrippyEncoderRight.getPosition() < 15){
-      _rightClimberMotor.set(.5);
-    } else {
-      _rightClimberMotor.set(0);
-      resetEncoder();
-    }
-  }
-  public void rightMotorEncoderDown() {
-    if (_GrippyEncoderRight.getPosition() < 15) {
-      _rightClimberMotor.set(-.5);
-    } else {
-      _rightClimberMotor.set(0);
-      resetEncoder();
-    }
-  }
-  public void leftMotorOff() {
-    _leftClimberMotor.set(0.);
-  }
-  
 
   public void rightMotorForward() {
-    _rightClimberMotor.set(-0.5);
-    System.out.println("rightmotorforward");
+    _right.set(0.6);
   }
 
   public void rightMotorBackward() {
-    _rightClimberMotor.set(0.5);
+    _right.set(-0.6);
+  }
+
+  public void leftMotorOff() {
+    _left.set(0.);
+    resetLeftEncoder();
+    leftEncoderFinished = true;
   }
 
   public void rightMotorOff() {
-    _rightClimberMotor.set(0.);
+    _right.set(0.);
+    resetRightEncoder();
+    rightEncoderFinished = true;
+  }
+
+  public boolean getLeftEncoderFinished() {
+    return leftEncoderFinished;
+  }
+
+  public boolean getRightEncoderFinished() {
+    return rightEncoderFinished;
+  }
+
+  public void setLeftEncoderFinished(boolean value) {
+    leftEncoderFinished = value;
+  }
+
+  public void setRightEncoderFinished(boolean value) {
+    rightEncoderFinished = value;
   }
 
   public static ClimberMotor getInstance() {
@@ -109,11 +141,5 @@ public class ClimberMotor extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (counter > 200){
-    System.out.println("Left Motor Current" + Double.toString(_leftClimberMotor.getOutputCurrent() * 1000.0));
-    System.out.println("Right Motor Current" + Double.toString(_rightClimberMotor.getOutputCurrent() * 1000.0));
-    counter = 0;
-    }
-    counter++;
   }
 }
