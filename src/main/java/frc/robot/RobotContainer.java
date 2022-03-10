@@ -38,6 +38,10 @@ public class RobotContainer {
         _con.back.whileHeld(new InstantCommand(() -> _climberMotor.rightMotorBackward()));
         _con.back.whenReleased(new InstantCommand(() -> _climberMotor.rightMotorOff()));
         _con.right_stick_button.toggleWhenPressed(new MotorUpEncoder());
-        _con.left_stick_button.toggleWhenPressed(new MotorDownEncoder());
+        //_con.left_stick_button.toggleWhenPressed(new MotorDownEncoder());
+        _con.left_stick_button.whileHeld(new InstantCommand(() -> _climberMotor.slowDrop()));
+        _con.left_stick_button.whenReleased(new InstantCommand(() -> _climberMotor.leftMotorOff()));
+        _con.left_stick_button.whenReleased(new InstantCommand(() -> _climberMotor.rightMotorOff()));
     }
-}
+    }
+

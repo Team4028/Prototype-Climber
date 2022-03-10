@@ -28,8 +28,8 @@ public class ClimberMotor extends SubsystemBase {
     _right = new CANSparkMax(4, MotorType.kBrushless);
     _left.restoreFactoryDefaults();
     _right.restoreFactoryDefaults();
-    _left.setSmartCurrentLimit(40);
-    _right.setSmartCurrentLimit(40);
+    _left.setSmartCurrentLimit(50);
+    _right.setSmartCurrentLimit(50);
     _left.setIdleMode(IdleMode.kBrake);
     _right.setIdleMode(IdleMode.kBrake);
     _leftEncoder = _left.getEncoder();
@@ -94,22 +94,28 @@ public class ClimberMotor extends SubsystemBase {
 
   // SmartDashboard.putNumber("Left: ", _leftEncoder.getPosition());
   public void leftMotorForward() {
-    _left.set(0.6);
+    _left.set(0.7);
     System.out.println(_leftEncoder.getPosition());
   }
 
   public void leftMotorBackward() {
-    _left.set(-0.6);
+    _left.set(-0.7);
     System.out.println(_leftEncoder.getPosition());
   }
 
   public void rightMotorForward() {
-    _right.set(0.6);
+    _right.set(0.7);
     System.out.println(_rightEncoder.getPosition());
   }
 
   public void rightMotorBackward() {
-    _right.set(-0.6);
+    _right.set(-0.7);
+    System.out.println(_rightEncoder.getPosition());
+  }
+
+  public void slowDrop() {
+    _right.set(0.25);
+    _left.set(.25);
     System.out.println(_rightEncoder.getPosition());
   }
 
