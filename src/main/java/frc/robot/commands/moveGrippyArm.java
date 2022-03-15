@@ -7,40 +7,43 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberMotor;
 
-public class MotorDownEncoder extends CommandBase {
-  ClimberMotor _m = ClimberMotor.get_instance();
-  /** Creates a new ToggleMotorEncoder. */
-  public MotorDownEncoder() {
-    addRequirements(_m);
+public class moveGrippyArm extends CommandBase {
+  /** Creates a new traversalBarCom. */
+  private static ClimberMotor _i = ClimberMotor.get_instance();
+  double _Speed;
+  double _encoderValue;
+  public moveGrippyArm(double Speed, double encoderValue) {
+    _Speed = Speed;
+    _encoderValue = encoderValue;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    _m.setLeftEncoderFinished(false);
-    _m.setRightEncoderFinished(false);
-    //_m.leftMotorEncoderDown();
-    //_m.rightMotorEncoderDown();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //_m.leftMotorEncoderDown();
-    //_m.rightMotorEncoderDown();
+    _i.rightMotorForward(_Speed);
+    _i.leftMotorForward(_Speed);
   }
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    _m.leftMotorOff();
-    _m.rightMotorOff();
+    _i.leftMotorOff();
+    _i.rightMotorOff();
+    System.out.println("Turning Off");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return _m.getLeftEncoderFinished();
+    if (Math.abs(_i.getLeftEncoderPosition() - _encoderValue) < 2) {
+      
+      return true;
+    } else {
+      return false;
+    }
   }
 }

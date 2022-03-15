@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
    */
   BeakXBoxController _con = new BeakXBoxController(0);
   ClimberSolenoid _s = ClimberSolenoid.getInstance();
-  ClimberMotor _climber = ClimberMotor.getInstance();
+  ClimberMotor _climber = ClimberMotor.get_instance();
   RobotContainer _rc;
 
   @Override
@@ -46,11 +46,15 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters teleoperated mode. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    _climber.resetLeftEncoder();
+    _climber.resetRightEncoder();
+  }
 
   /** This function is called periodically during teleoperated mode. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+  }
 
   /** This function is called once each time the robot enters test mode. */
   @Override

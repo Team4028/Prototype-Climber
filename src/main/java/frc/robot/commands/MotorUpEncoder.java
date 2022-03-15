@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberMotor;
 
 public class MotorUpEncoder extends CommandBase {
-  ClimberMotor _m = ClimberMotor.getInstance();
+  ClimberMotor _m = ClimberMotor.get_instance();
   /** Creates a new ToggleMotorEncoder. */
   public MotorUpEncoder() {
     addRequirements(_m);
@@ -20,15 +20,15 @@ public class MotorUpEncoder extends CommandBase {
   public void initialize() {
     _m.setLeftEncoderFinished(false);
     _m.setRightEncoderFinished(false);
-    _m.leftMotorEncoderUp();
-    _m.rightMotorEncoderUp();
+    //_m.leftMotorEncoderUp();
+    //_m.rightMotorEncoderUp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    _m.leftMotorEncoderUp();
-    _m.rightMotorEncoderUp();
+    //_m.leftMotorEncoderUp();
+    //_m.rightMotorEncoderUp();
   }
 
   // Called once the command ends or is interrupted.

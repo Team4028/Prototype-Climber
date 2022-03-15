@@ -28,8 +28,8 @@ public class ClimberMotor extends SubsystemBase {
     _right = new CANSparkMax(4, MotorType.kBrushless);
     _left.restoreFactoryDefaults();
     _right.restoreFactoryDefaults();
-    _left.setSmartCurrentLimit(50);
-    _right.setSmartCurrentLimit(50);
+    _left.setSmartCurrentLimit(60);
+    _right.setSmartCurrentLimit(60);
     _left.setIdleMode(IdleMode.kBrake);
     _right.setIdleMode(IdleMode.kBrake);
     _leftEncoder = _left.getEncoder();
@@ -58,7 +58,7 @@ public class ClimberMotor extends SubsystemBase {
     rightEncoderOffset = _rightEncoder.getPosition();
   }
 
-  public void leftMotorEncoderUp() {
+ /* public void leftMotorEncoderUp() {
     if (getLeftEncoderPosition() < 50) {
       leftMotorForward();
     } else {
@@ -91,44 +91,42 @@ public class ClimberMotor extends SubsystemBase {
       rightMotorOff();
     }
   }
-
+*/
   // SmartDashboard.putNumber("Left: ", _leftEncoder.getPosition());
-  public void leftMotorForward() {
-    _left.set(0.7);
-    System.out.println(_leftEncoder.getPosition());
+  public void leftMotorForward(double speed) {
+    _left.set(speed);
+    System.out.println((_leftEncoder.getPosition() - leftEncoderOffset));
   }
 
-  public void leftMotorBackward() {
-    _left.set(-0.7);
-    System.out.println(_leftEncoder.getPosition());
+  public void leftMotorBackward(double speed) {
+    _left.set(speed);
+    System.out.println((_leftEncoder.getPosition() - leftEncoderOffset));
   }
 
-  public void rightMotorForward() {
-    _right.set(0.7);
+  public void rightMotorForward(double speed) {
+    _right.set(speed);
     System.out.println(_rightEncoder.getPosition());
   }
 
-  public void rightMotorBackward() {
-    _right.set(-0.7);
-    System.out.println(_rightEncoder.getPosition());
+  public void rightMotorBackward(double speed) {
+    _right.set(speed);
+    System.out.println((_rightEncoder.getPosition() - rightEncoderOffset));
   }
 
   public void slowDrop() {
     _right.set(0.25);
     _left.set(.25);
-    System.out.println(_rightEncoder.getPosition());
+    System.out.println((_leftEncoder.getPosition() - leftEncoderOffset));
   }
 
   public void leftMotorOff() {
     _left.set(0.);
-    resetLeftEncoder();
-    leftEncoderFinished = true;
+
   }
 
   public void rightMotorOff() {
     _right.set(0.);
-    resetRightEncoder();
-    rightEncoderFinished = true;
+
   }
 
   public boolean getLeftEncoderFinished() {
@@ -147,14 +145,14 @@ public class ClimberMotor extends SubsystemBase {
     rightEncoderFinished = value;
   }
 
-  public static ClimberMotor getInstance() {
+  public static ClimberMotor get_instance() {
     return _climber;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Left", _leftEncoder.getPosition());
-    SmartDashboard.putNumber("Right", _rightEncoder.getPosition());
+    SmartDashboard.putNumber("Left", (_leftEncoder.getPosition() - leftEncoderOffset));
+    SmartDashboard.putNumber("Right", (_rightEncoder.getPosition() - rightEncoderOffset));
   }
 }
