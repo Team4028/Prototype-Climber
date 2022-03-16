@@ -25,8 +25,8 @@ public class RobotContainer {
         _con.a.whenPressed(new InstantCommand(() -> _s.toggleTippySolenoid()));
         _con.left_bumper.whileHeld(new InstantCommand(() -> _climberMotor.leftMotorForward(.8)));
         _con.left_bumper.whenReleased(new InstantCommand(() -> _climberMotor.leftMotorOff()));
-        _con.start.whileHeld(new InstantCommand(() -> _climberMotor.leftMotorBackward(-.8)));
-        _con.start.whenReleased(new InstantCommand(() -> _climberMotor.leftMotorOff()));
+        _con.start.whileHeld(new InstantCommand(() -> _climberMotor.rightMotorBackward(-.8)));
+        _con.start.whenReleased(new InstantCommand(() -> _climberMotor.rightMotorOff()));
 
         _con.y.whileHeld(new InstantCommand(() -> _climberMotor.leftMotorForward(.8)).alongWith(new InstantCommand(() -> _climberMotor.rightMotorForward(.8))));
         _con.y.whenReleased(new InstantCommand(() -> _climberMotor.leftMotorOff()).alongWith(new InstantCommand(() -> _climberMotor.rightMotorOff())));
@@ -36,8 +36,8 @@ public class RobotContainer {
         _con.b.whenPressed(new InstantCommand(() -> _s.toggleGrippySolenoid()));
         _con.right_bumper.whileHeld(new InstantCommand(() -> _climberMotor.rightMotorForward(.8)));
         _con.right_bumper.whenReleased(new InstantCommand(() -> _climberMotor.rightMotorOff()));
-        _con.back.whileHeld(new InstantCommand(() -> _climberMotor.rightMotorBackward(-.8)));
-        _con.back.whenReleased(new InstantCommand(() -> _climberMotor.rightMotorOff()));
+        _con.back.whileHeld(new InstantCommand(() -> _climberMotor.leftMotorBackward(-.8)));
+        _con.back.whenReleased(new InstantCommand(() -> _climberMotor.leftMotorOff()));
         _con.right_stick_button.toggleWhenPressed(new MotorUpEncoder());
         //_con.left_stick_button.toggleWhenPressed(new MotorDownEncoder());
         _con.left_stick_button.whenPressed(new highBarClimb());

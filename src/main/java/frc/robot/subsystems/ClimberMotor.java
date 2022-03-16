@@ -24,8 +24,8 @@ public class ClimberMotor extends SubsystemBase {
   /** Creates a new ClimberMotor. */
   public ClimberMotor() {
     //1 = production motor
-    _left = new CANSparkMax(1, MotorType.kBrushless);
-    _right = new CANSparkMax(4, MotorType.kBrushless);
+    _left = new CANSparkMax(18, MotorType.kBrushless);
+    _right = new CANSparkMax(17, MotorType.kBrushless);
     _left.restoreFactoryDefaults();
     _right.restoreFactoryDefaults();
     _left.setSmartCurrentLimit(60);
