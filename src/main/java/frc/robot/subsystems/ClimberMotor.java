@@ -24,8 +24,8 @@ public class ClimberMotor extends SubsystemBase {
   /** Creates a new ClimberMotor. */
   public ClimberMotor() {
     //1 = production motor
-    _left = new CANSparkMax(18, MotorType.kBrushless);
-    _right = new CANSparkMax(17, MotorType.kBrushless);
+    _left = new CANSparkMax(4, MotorType.kBrushless);
+    _right = new CANSparkMax(3, MotorType.kBrushless);
     _left.restoreFactoryDefaults();
     _right.restoreFactoryDefaults();
     _left.setSmartCurrentLimit(60);
@@ -105,7 +105,7 @@ public class ClimberMotor extends SubsystemBase {
 
   public void rightMotorForward(double speed) {
     _right.set(speed);
-    System.out.println(_rightEncoder.getPosition());
+    System.out.println(_right.getOutputCurrent());
   }
 
   public void rightMotorBackward(double speed) {
@@ -148,11 +148,25 @@ public class ClimberMotor extends SubsystemBase {
   public static ClimberMotor get_instance() {
     return _climber;
   }
+  
+  public double rightCurrent() {
+   return _right.getOutputCurrent();
+  }
+
+  public void setRampRate(double rate) {
+    _right.setOpenLoopRampRate(rate);
+  }
+
+  public void setRightEncoder(double val) {
+    _rightEncoder.setPosition(val);
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Left", (_leftEncoder.getPosition() - leftEncoderOffset));
     SmartDashboard.putNumber("Right", (_rightEncoder.getPosition() - rightEncoderOffset));
+    SmartDashboard.putNumber("Left curret", _left.getOutputCurrent());
+    SmartDashboard.putNumber("Right current", _right.getOutputCurrent());
   }
 }
