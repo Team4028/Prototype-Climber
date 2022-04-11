@@ -153,12 +153,16 @@ public class ClimberMotor extends SubsystemBase {
    return _right.getOutputCurrent();
   }
 
-  public void setRampRate(double rate) {
-    _right.setOpenLoopRampRate(rate);
-  }
+  public double leftCurrent() {
+    return _left.getOutputCurrent();
+   }
+ 
+   public void setRightEncoder(double val) {
+     _rightEncoder.setPosition(val);
+   }
 
-  public void setRightEncoder(double val) {
-    _rightEncoder.setPosition(val);
+  public void setLeftEncoder(double val) {
+    _leftEncoder.setPosition(val);
   }
 
   @Override

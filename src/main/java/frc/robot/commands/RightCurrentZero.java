@@ -7,9 +7,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberMotor;
 
-public class ZeroWithCurrent extends CommandBase {
+public class RightCurrentZero extends CommandBase {
   /** Creates a new ZeroWithCurrent. */
-  public ZeroWithCurrent() {
+  public RightCurrentZero() {
     
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -30,10 +30,7 @@ public class ZeroWithCurrent extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // ClimberMotor.get_instance().setRampRate(0.);
-  // ClimberMotor.get_instance().rightMotorForward(0);
-  //new moveGrippyArm(0.1, ClimberMotor.get_instance().getRightEncoderPosition() + 10).schedule();
-
+    ClimberMotor.get_instance().rightMotorOff();
   }
 
   // Returns true when the command should end.

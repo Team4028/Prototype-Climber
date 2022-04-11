@@ -11,14 +11,15 @@ import frc.robot.subsystems.ClimberMotor;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class CurrentZeroSequence extends SequentialCommandGroup {
+public class RightZeroSequence extends SequentialCommandGroup {
   /** Creates a new CurrentZeroSequence. */
-  public CurrentZeroSequence() {
+  public RightZeroSequence() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ZeroWithCurrent(),
-      new moveGrippyArm(0.1, 10),
+      new RightCurrentZero(),
+      new InstantCommand(() -> ClimberMotor.get_instance().setRightEncoder(0.)),
+      new MoveRightArm(0.1, 10),
       new InstantCommand(() -> ClimberMotor.get_instance().setRightEncoder(0.))
     );
   }

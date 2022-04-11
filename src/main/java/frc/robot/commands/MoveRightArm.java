@@ -7,12 +7,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberMotor;
 
-public class moveGrippyArm extends CommandBase {
+public class MoveRightArm extends CommandBase {
   /** Creates a new traversalBarCom. */
   private static ClimberMotor _i = ClimberMotor.get_instance();
   double _Speed;
   double _encoderValue;
-  public moveGrippyArm(double Speed, double encoderValue) {
+  public MoveRightArm(double Speed, double encoderValue) {
     _Speed = Speed;
     _encoderValue = encoderValue;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -20,21 +20,17 @@ public class moveGrippyArm extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    _encoderValue += _i.getRightEncoderPosition();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     _i.rightMotorForward(_Speed);
-    _i.leftMotorForward(_Speed);
   }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     _i.leftMotorOff();
-    _i.rightMotorOff();
     System.out.println("Turning Off");
   }
 
